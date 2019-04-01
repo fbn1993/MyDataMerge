@@ -76,3 +76,58 @@ str(new_managers_data)
 
 head(managers)
 head(new_managers_data)
+
+attach(new_managers_data)
+converted_date <- as.Date(Date,"%m/%d/%Y")
+converted_date <- format(converted_date,"%d/%m/%Y")
+converted_date
+detach(new_managers_data)
+new_managers_data$Date <- converted_date
+head(new_managers_data)
+
+attach(managers)
+converted_date <- as.Date(Date, "%Y-%d-%m") 
+converted_date <- format(converted_date,"%d/%m/%Y")
+converted_date
+detach(managers)
+managers$Date <- converted_date
+head(managers)
+names(new_managers_data)
+include_list <- subset(new_managers_data, select = c(6, 3, 7, 4, 8:12))
+include_list
+
+blank_vectors <- c("AgeCat", "Answer total", "mean value")
+include_list[, blank_vectors] <- NA
+
+
+attach(include_list)
+include_list$AgeCat[Age >= 45] <- "Elder"
+include_list$AgeCat[Age >= 26 & Age <= 44] <- "Middle Aged"
+include_list$AgeCat[Age <= 25] <- "Young"
+include_list$AgeCat[is.na(Age)] <- "Elder"
+detach(include_list)
+
+# Calculate Answer total
+attach(include_list)
+include_list$'Answer total' <- Q1 + Q2 + Q3 + Q4 + Q5
+
+# Calculate mean value for each row
+include_list$'mean value' <- rowMeans(include_list[5:9])
+detach(include_list)
+
+
+managers
+include_list
+managers <- rbind(managers, include_list)
+managers
+#install.packages("dplyr")
+#install.packages("tidyverse")
+#library(tidyverse)
+#new_managers_data2 <- new_managers_data %>% select(6,3,7,4, 8:12) 
+#head(managers)
+#head(new_managers_data2)
+#new_managers_data2$AgeCat <- NA
+# new_managers_data2$total <- NA
+#new_managers_data2$MeanValue <- NA
+#head(new_managers_data2)
+#rbind(managers, new_managers_data2)
