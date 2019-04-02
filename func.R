@@ -33,10 +33,10 @@ price_calculator <- function(hourly_value, pph=40, status){
   if (status == 'public'){
     net_price <- net_price * 1.06
   }
-  else {
+  else if(status == 'private'){
     net_price <- net_price * 1.12
   }
   return(net_price)
 }
 
-price_calculator(100,status = 'public')
+price_calculator(200,status = 'private')
